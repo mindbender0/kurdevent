@@ -15,16 +15,17 @@ const Navbar = () => {
             <div className='flex h-16 items-center'>
               {/* TODO: Mobile Nav */}
 
+              {/* The app Icon */}
               <div className='ml-4 flex lg:ml-0'>
                 <Link href='/'>
                   <Aperture size={32} className='text-rose-600' />
                 </Link>
               </div>
 
-              <div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch'>
-                <NavItems />
-              </div>
+              {/* Nav items section */}
+              <NavItems />
 
+              {/* Sign in and Sign Up Nav Section */}
               <div className='ml-auto flex items-center'>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
                   {user ? null : (

@@ -1,51 +1,32 @@
 'use client';
 
-import { PRODUCT_CATEGORIES } from '@/config';
-import { useOnClickOutside } from '@/hooks/use-on-click-outside';
-import { useEffect, useRef, useState } from 'react';
-import NavItem from './NavItem';
+import Link from 'next/link';
+// import { usePathname } from 'next/navigation';
+import { buttonVariants } from './ui/button';
 
 const NavItems = () => {
-  const [activeIndex, setActiveIndex] = useState<null | number>(null);
+  // const pathname = usePathname();
 
-  useEffect(() => {
-    const handler = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setActiveIndex(null);
-      }
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, []);
-
-  const isAnyOpen = activeIndex !== null;
-
-  const ref = useRef<HTMLDivElement | null>(null);
-  useOnClickOutside(ref, () => setActiveIndex(null));
+  // Define navigation links for home, events, and about pages
+  const navLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Events', href: '/events' },
+    { label: 'Tickets', href: '/tickets' },
+  ];
 
   return (
-    <div className='flex gap-4 h-full' ref={ref}>
-      {PRODUCT_CATEGORIES.map((category, index) => {
-        const handleOpen = () => {
-          if (activeIndex === index) {
-            setActiveIndex(null);
-          } else {
-            setActiveIndex(index);
-          }
-        };
-
-        const isOpen = activeIndex === index;
-
-        return (
-          <NavItem
-            category={category}
-            handleOpen={handleOpen}
-            isOpen={isOpen}
-            key={category.value}
-            isAnyOpen={isAnyOpen}
-          />
-        );
-      })}
+    <div className='flex items-center'>
+      <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-8 ml-8'>
+        {navLinks.map((link, index) => (
+          <Link
+            key={index}
+            href={link.href}
+            className={buttonVariants({ variant: 'ghost' })}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

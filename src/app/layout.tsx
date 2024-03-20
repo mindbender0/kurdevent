@@ -3,7 +3,8 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
-import './globals.css';
+import '@/styles/globals.css';
+import { CardWithForm } from '@/components/AddEvent';
 
 const inter = Inter({ subsets: ['latin'] });
 
