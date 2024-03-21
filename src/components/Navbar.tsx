@@ -1,6 +1,6 @@
 import { Aperture } from 'lucide-react';
 import Link from 'next/link';
-import MaxWidthWrapper from './MaxWidthWrapper';
+import MaxWidthWrapper from './Wrapper';
 import NavItems from './NavItems';
 import { buttonVariants } from './ui/button';
 

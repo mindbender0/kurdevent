@@ -1,4 +1,4 @@
-import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import Wrapper from '@/components/Wrapper';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { CalendarSearch, Gauge, Navigation } from 'lucide-react';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <>
       {/* NOTE: Fragment <></> */}
-      <MaxWidthWrapper>
+      <Wrapper>
         <div className='py-20 mx-auto text-center flex flex-col items-center max-w-3xl'>
           <h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
             Discover Your Next Adventure with{' '}
@@ -47,10 +47,10 @@ export default function Home() {
         </div>
 
         {/* TODO: List events*/}
-      </MaxWidthWrapper>
+      </Wrapper>
 
       <section className='border-t border-gray-50 bg-gray-50'>
-        <MaxWidthWrapper className='py-20'>
+        <Wrapper className='py-20'>
           <div className='grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0'>
             {perks.map((perk) => (
               <div
@@ -73,7 +73,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </MaxWidthWrapper>
+        </Wrapper>
       </section>
     </>
   );
