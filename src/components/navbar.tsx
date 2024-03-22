@@ -32,7 +32,7 @@ const Navbar = () => {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {user ? null : (
                     <Link
-                      href="/auth/sign-in"
+                      href="/sign-in"
                       className={buttonVariants({ variant: 'ghost' })}>
                       Sign in
                     </Link>
@@ -44,8 +44,8 @@ const Navbar = () => {
                     <p></p>
                   ) : (
                     <Link
-                      href="/auth/sign-up"
-                      className={buttonVariants({ variant: 'ghost' })}>
+                      href="/sign-up"
+                      className={buttonVariants({ variant: 'outline' })}>
                       Create account
                     </Link>
                   )}
