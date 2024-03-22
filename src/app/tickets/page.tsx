@@ -1,11 +1,12 @@
-import MaxWidthWrapper from '@/components/Wrapper';
+// Components
+import Wrapper from '@/components/wrapper';
 
 export default function Tickets() {
   return (
-    <MaxWidthWrapper>
+    <Wrapper className="mt-1 border border-rose-500">
       <main>
         <h2>Hello, Tickets Page</h2>
       </main>
-    </MaxWidthWrapper>
+    </Wrapper>
   );
 }

@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
+
+// Components
 import { buttonVariants } from './ui/button';
 
 const NavItems = () => {
-  // const pathname = usePathname();
-
-  // Define navigation links for home, events, and about pages
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Events', href: '/events' },

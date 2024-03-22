@@ -1,4 +1,4 @@
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';

@@ -1,6 +1,5 @@
 {
   "singleQuote": true,
   "tsxSingleQuote": true,
-  "bracketSameLine": true,
-  "trailingComma": "all"
+  "bracketSameLine": true
 }

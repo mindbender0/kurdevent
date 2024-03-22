@@ -1,11 +1,14 @@
-import Wrapper from '@/components/Wrapper';
+// Components
+import CardWithForm from '@/components/add-event';
+import EventList from '@/components/event-list';
+import Wrapper from '@/components/wrapper';
 
 export default function Events() {
   return (
-    <Wrapper>
-      <main>
-        <h2>Hello, Events Page</h2>
-      </main>
-    </Wrapper>
+    <main>
+      <Wrapper>
+        <div>Events</div>
+      </Wrapper>
+    </main>
   );
 }
