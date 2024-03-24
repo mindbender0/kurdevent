@@ -14,7 +14,7 @@
         "city": "Akre"
       },
       "category": "outdoor",
-      "image": ""
+      "image": "/public/events/kod.jpg"
     },
     {
       "id": 2,
@@ -30,7 +30,7 @@
         "city": "Dukan"
       },
       "category": "outdoor",
-      "image": ""
+      "image": "/public/events/kod.jpg"
     },
     {
       "id": 3,
@@ -46,7 +46,7 @@
         "city": "Slemani"
       },
       "category": "concert",
-      "image": ""
+      "image": "/public/events/kod.jpg"
     },
     {
       "id": 4,
@@ -62,7 +62,7 @@
         "city": "Ahmed Awa"
       },
       "category": "outdoor",
-      "image": ""
+      "image": "/public/events/kod.jpg"
     }
   ]
 }

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
+import Footer from '@/components/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="relative flex flex-col min-h-screen">
           <Navbar />
           <div className="flex-grow flex-1">{children}</div>
+          <Footer />
         </main>
       </body>
     </html>

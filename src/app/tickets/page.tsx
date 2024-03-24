@@ -3,9 +3,9 @@ import Wrapper from '@/components/wrapper';
 
 export default function Tickets() {
   return (
-    <Wrapper className="mt-1 border border-rose-500">
+    <Wrapper className="mt-1">
       <main>
-        <h2>Hello, Tickets Page</h2>
+        <h2>Tickets Page</h2>
       </main>
     </Wrapper>
   );
