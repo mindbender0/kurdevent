@@ -6,7 +6,7 @@ import Wrapper from './wrapper';
 import NavItems from './nav-items';
 import { buttonVariants } from './ui/button';
 
-const Navbar = () => {
+export default function Navbar() {
   const user = null;
 
   return (
@@ -57,6 +57,4 @@ const Navbar = () => {
       </header>
     </div>
   );
-};
-
-export default Navbar;
+}

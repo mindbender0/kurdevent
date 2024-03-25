@@ -4,7 +4,7 @@ import Image from 'next/legacy/image';
 import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 
-const EventCard = ({ event }) => {
+export default function EventCard({ event }) {
   const truncatedBody =
     event.body.length > 200 ? event.body.substring(0, 200) + '...' : event.body;
   const capitalizedCategory =
@@ -74,6 +74,5 @@ const EventCard = ({ event }) => {
     //   </div>
     // </div>
   );
-};
+}
 
-export default EventCard;

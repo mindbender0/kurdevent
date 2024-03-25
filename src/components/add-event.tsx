@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-const CardWithForm = () => {
+export default function CardWithForm() {
   return (
     <Card className="w-[450px]">
       <CardHeader>
@@ -58,6 +58,5 @@ const CardWithForm = () => {
       </CardFooter>
     </Card>
   );
-};
+}
 
-export default CardWithForm;

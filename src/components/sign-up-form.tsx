@@ -1,14 +1,81 @@
-'use client';
+"use client";
 
-import { Metadata } from 'next';
-import { UserAuthForm } from '@/components/user-auth-form';
+import * as React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { Metadata } from "next";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import isEmailValid from "@/lib/is-email-valid";
+import axios from "axios";
 
 export const metadata: Metadata = {
-  title: 'Authentication',
-  description: 'Authentication forms built using the components.',
+  title: "Authentication",
+  description: "Authentication forms built using the components.",
 };
 
 export default function SignUpForm() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const [user, setUser] = React.useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (!isEmailValid(user.email)) {
+      setError("Email is invalid");
+      return;
+    }
+
+    if (!user.password || user.password.length < 8) {
+      setError("Password is invalid");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/users/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (res.status === 400) {
+        setError("Email is already registered");
+      }
+      if (res.status === 200) {
+        setError("");
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      setError("Error, try again");
+      console.log(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+
+    // try {
+    //   setIsLoading(true);
+    //   const response = await axios.post('/api/users/sign-up', user);
+    //   router.push('/sign-in');
+    // } catch (error: any) {
+    //   console.log('Signup failed', error.message);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+  };
+
   return (
     <div className="container relative hidden h-[700px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 border border-gray-100">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
@@ -48,7 +115,116 @@ export default function SignUpForm() {
               Enter your email below to create your account
             </p>
           </div>
-          <UserAuthForm />
+
+          <div className="grid gap-6">
+            <form onSubmit={onSubmit}>
+              <div className="grid gap-2">
+                <div className="grid gap-1">
+                  <Label className="" htmlFor="name">
+                    Full name
+                  </Label>
+                  <Input
+                    id="name"
+                    placeholder="fullname"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    value={user.name}
+                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                  />
+                </div>
+                <div className="grid gap-1">
+                  <Label className="" htmlFor="username">
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    placeholder="John-123"
+                    type="text"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    value={user.username}
+                    onChange={(e) =>
+                      setUser({ ...user, username: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="grid gap-1">
+                  <Label className="" htmlFor="email">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    placeholder="name@example.com"
+                    type="email"
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    value={user.email}
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="grid gap-1">
+                  <Label className="" htmlFor="password">
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    placeholder="password"
+                    type="password"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
+                  />
+                </div>
+                <Button disabled={isLoading}>
+                  {isLoading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Sign Up
+                </Button>
+                <p className="text-rose-600 text-[16px] mb-4">
+                  {error && error}
+                </p>
+              </div>
+            </form>
+
+            <p className="px-8 text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href="/sign-in"
+                className="underline underline-offset-4 hover:text-primary">
+                Sign in
+              </Link>{" "}
+            </p>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <Button variant="outline" type="button" disabled={isLoading}>
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.gitHub className="mr-2 h-4 w-4" />
+              )}{" "}
+              GitHub
+            </Button>
+          </div>
 
           {/* <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{' '}
