@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import isEmailValid from "@/lib/is-email-valid";
-import axios from "axios";
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -61,19 +60,9 @@ export default function SignUpForm() {
     } catch (error) {
       setError("Error, try again");
       console.log(error.message);
-    } finally {
-      setIsLoading(false);
     }
 
-    // try {
-    //   setIsLoading(true);
-    //   const response = await axios.post('/api/users/sign-up', user);
-    //   router.push('/sign-in');
-    // } catch (error: any) {
-    //   console.log('Signup failed', error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setTimeout(() => setIsLoading(false), 3000);
   };
 
   return (
@@ -129,8 +118,9 @@ export default function SignUpForm() {
                     autoCapitalize="none"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.name}
+                    // value={user.name}
                     onChange={(e) => setUser({ ...user, name: e.target.value })}
+                    required
                   />
                 </div>
                 <div className="grid gap-1">
@@ -144,10 +134,11 @@ export default function SignUpForm() {
                     autoCapitalize="none"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.username}
+                    // value={user.username}
                     onChange={(e) =>
                       setUser({ ...user, username: e.target.value })
                     }
+                    required
                   />
                 </div>
                 <div className="grid gap-1">
@@ -162,10 +153,11 @@ export default function SignUpForm() {
                     autoComplete="email"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.email}
+                    // value={user.email}
                     onChange={(e) =>
                       setUser({ ...user, email: e.target.value })
                     }
+                    required
                   />
                 </div>
                 <div className="grid gap-1">
@@ -178,10 +170,11 @@ export default function SignUpForm() {
                     type="password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.password}
+                    // value={user.password}
                     onChange={(e) =>
                       setUser({ ...user, password: e.target.value })
                     }
+                    required
                   />
                 </div>
                 <Button disabled={isLoading}>

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 // Components
-import { buttonVariants } from './ui/button';
+import { buttonVariants } from "./ui/button";
 
 export default function NavItems() {
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Events', href: '/events' },
-    { label: 'Tickets', href: '/tickets' },
-    { label: 'Dashboard', href: '/dashboard' },
+    { label: "Home", href: "/" },
+    { label: "Events", href: "/events" },
+    { label: "Tickets", href: "/tickets" },
+    // { label: 'Dashboard', href: '/dashboard' },
   ];
 
   return (
@@ -20,7 +20,7 @@ export default function NavItems() {
           <Link
             key={index}
             href={link.href}
-            className={buttonVariants({ variant: 'ghost' })}>
+            className={buttonVariants({ variant: "ghost" })}>
             {link.label}
           </Link>
         ))}

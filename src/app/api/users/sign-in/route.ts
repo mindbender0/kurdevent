@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-connect();
 // Calls the connect function to establish a connection to the database.
+connect();
 
 export async function POST(request: NextRequest) {
   try {

@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import isEmailValid from "@/lib/is-email-valid";
 
@@ -18,31 +17,32 @@ export default function SignInForm() {
   const [error, setError] = useState("");
   const router = useRouter();
   const session = useSession();
+
   const [user, setUser] = React.useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.replace("/");
+    }
+  }, [session, router]);
 
   const onLogin = async (e: any) => {
     e.preventDefault();
 
     setIsLoading(true);
 
-    useEffect(() => {
-      if (session?.status === "authenticated") {
-        router.replace("dashboard");
-      }
-    }, [session, router]);
+    // if (!isEmailValid(user.email)) {
+    //   setError("Email is invalid");
+    //   return;
+    // }
 
-    if (!isEmailValid(user.email)) {
-      setError("Email is invalid");
-      return;
-    }
-
-    if (!user.password || user.password.length < 8) {
-      setError("Password is invalid");
-      return;
-    }
+    // if (!user.password || user.password.length < 8) {
+    //   setError("Password is invalid");
+    //   return;
+    // }
 
     const res = await signIn("credentials", {
       redirect: false,
@@ -52,14 +52,12 @@ export default function SignInForm() {
 
     if (res?.error) {
       setError("Invalid email or password");
-      if (res?.url) router.replace("/dashboard");
+      if (res?.url) router.replace("/");
     } else {
       setError("");
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000)
+    setTimeout(() => setIsLoading(false), 1000);
   };
 
   return (
@@ -90,7 +88,7 @@ export default function SignInForm() {
                     autoComplete="email"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.email}
+                    // value={user.email}
                     onChange={(e) =>
                       setUser({ ...user, email: e.target.value })
                     }
@@ -106,7 +104,7 @@ export default function SignInForm() {
                     type="password"
                     autoCorrect="off"
                     disabled={isLoading}
-                    value={user.password}
+                    // value={user.password}
                     onChange={(e) =>
                       setUser({ ...user, password: e.target.value })
                     }

@@ -1,22 +1,22 @@
-import NextAuth from 'next-auth';
-import { Account, User as AuthUser } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { connect } from '@/lib/mongodb';
-import User from '@/models/user';
-import bcrypt from 'bcryptjs';
+import NextAuth from "next-auth";
+import { Account, User as AuthUser } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { connect } from "@/lib/mongodb";
+import User from "@/models/user";
+import bcrypt from "bcryptjs";
 
 export const authOptions: any = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      id: 'credentials',
-      name: 'Credentials',
+      id: "credentials",
+      name: "Credentials",
       credentials: {
-        name: { label: 'Email', type: 'text' },
-        username: { label: 'Username', type: 'text' },
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        name: { label: "Email", type: "text" },
+        username: { label: "Username", type: "text" },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials: any) {
         await connect();
@@ -31,7 +31,7 @@ export const authOptions: any = {
               return user;
             }
           }
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(error);
         }
       },
@@ -45,4 +45,4 @@ export const authOptions: any = {
 };
 
 export const handler = NextAuth(authOptions);
-export {handler as GET, handler as POST}
+export { handler as GET, handler as POST };

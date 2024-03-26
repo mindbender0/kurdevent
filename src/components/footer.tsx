@@ -8,7 +8,7 @@ export default function Footer() {
       <Wrapper>
         <div className="container mx-auto flex justify-between items-center">
           <p className="text-sm font-bold">
-            Kurdevent &copy; {new Date().getFullYear()}
+            Kurdevent &copy;{new Date().getFullYear()}
           </p>
           <nav>
             <ul className="flex space-x-4">
