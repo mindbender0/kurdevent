@@ -20,21 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-async function getEvents() {
-  const res = await fetch(
-    "https://4000-monospace-kurdevent-1710360340399.cluster-mwrgkbggpvbq6tvtviraw2knqg.cloudworkstations.dev/events"
-  );
-
-  return res.json();
-}
-
-export default async function Events() {
+export default function Events() {
   const [activeSearch, setActiveSearch] = useState(events);
   const [sortBy, setSortBy] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const events = 
 
   const handleSearch = (e: any) => {
     const searchValue = e.target.value.toLowerCase();
