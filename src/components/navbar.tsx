@@ -22,7 +22,6 @@ export default function Navbar() {
 
   const handleLogout = () => {
     signOut();
-    router.push("/sign-in");
   };
 
   // Close the dropdown when clicking outside of it

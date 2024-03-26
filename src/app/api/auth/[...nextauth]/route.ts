@@ -40,8 +40,34 @@ export const authOptions: any = {
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
-    // ...add more providers here
   ],
+  callbacks: {
+    async signIn({ user, account }: { user: AuthUser; account: Account }) {
+      if (account?.provider === "credentials") {
+        return true;
+      }
+      if (account?.provider === "github") {
+        await connect();
+        try {
+          const isExist = await User.findOne({ email: user.email });
+          if (!isExist) {
+            const newUser = new User({
+              email: user.email,
+            });
+            await newUser.save();
+            return true;
+          }
+          return true;
+        } catch (error) {
+          console.log("Error saving user", error);
+          return false;
+        }
+      }
+    },
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
+  },
 };
 
 export const handler = NextAuth(authOptions);

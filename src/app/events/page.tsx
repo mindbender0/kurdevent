@@ -5,83 +5,85 @@ import { useEffect, useState } from "react";
 // Components
 import EventCard from "@/components/event-card";
 import Wrapper from "@/components/wrapper";
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Search } from "lucide-react";
+import events from "@/_data/events";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-const events = [
-  {
-    id: 1,
-    title: "Visit an ancient village with KurdistanOutdoor",
-    body: "With KurdistanOutdoor, you can visit and know about Kurdistan’s different ancient places. On an upcoming event, KurdistanOutdoor has chosen a nice little village near Akre which many people can participate. Drinks, food, and fun activities will be provided for the participants and there will be special surprises for those who want to attend. You can get your tickets through reserving a ticket on KurdEvent and have your seat saved for you. Through this event, you can network with different people as many people from different nationalities will join the trip. It will be a wonderful experience.",
-    date: "18/1/2024",
-    ticket: {
-      price: "25,000 IQD",
-      quantity: 300,
-    },
-    location: {
-      province: "Kurdistan",
-      city: "Akre",
-    },
-    category: "outdoor",
-    image: "/static/images/kod.jpg",
-  },
-  {
-    id: 2,
-    title: "Have a Picnic with Fun Activities ",
-    body: "With KurdistanOutdoor, you can visit and know about Kurdistan’s different ancient places. For this event, they are especially holding a nice and beautiful picnic with your friends and families. You get to meet other friends and families and interact with them. Participants will be provided with tables and chairs. The picnic will have fun and festive activities such as making ballons, making kurdish local foods, and many more. With KurdEvent, you can reserve your tickets for you and your family and friends so that you can be sure to have your seat saved with no trouble. This picnic in the nature of Kurdistan will be a fun experience and one to remember. ",
-    date: "20/2/2024",
-    ticket: {
-      price: "10,000 IQD",
-      quantity: 250,
-    },
-    location: {
-      province: "Kurdistan",
-      city: "Dukan",
-    },
-    category: "outdoor",
-    image: "/static/images/picnic.png",
-  },
-  {
-    id: 3,
-    title: "Enjoy Hardi Salami’s Concert",
-    body: "Hardi Salami, one of Kurdistan’s great new singers, will be performing his exclusive album in Chavi Land’s White Hall. There will be a large number of participants. As Hardi will be performing his greatest songs, everyone will be provided with flashlights to bring a beautiful vibe throughout the concert. KurdEvent has available tickets for you so you can reserve and buy your tickets from the comfort of your device. You can be sure of having your seat reserved and where your seat will be. Join the concert and give us your feedback on the great experience.",
-    date: "21/3/2024",
-    ticket: {
-      price: "15,000 IQD",
-      quantity: 3000,
-    },
-    location: {
-      province: "Kurdistan",
-      city: "Slemani",
-    },
-    category: "concert",
-    image: "/static/images/hs-concert.jpg",
-  },
-  {
-    id: 4,
-    title: "Visit Ahmad Awa with KurdistanOutdoor",
-    body: "With KurdistanOutdoor, you can visit and have fun at one of the most beautiful natures of Kurdistan, Ahmad Awa. By joining this event, you get to do hiking and meet new people on the trip as well as enjoy Kurdish food. The waterfall of Ahmad Awa will take your breath away. Make sure to bring warm clothes as it is winter. KurdistanOutdoor will have guides throughout the trip for everyone and drinks will be provided. Many people of different nationalities and backgrounds will be on this trip. So, if you want to connect and know new people, this is your chance! Buy your tickets now. Your seat for the trip is one click away.",
-    date: "15/12/2024",
-    ticket: {
-      price: "10,000 IQD",
-      quantity: 150,
-    },
-    location: {
-      province: "Kurdistan",
-      city: "Ahmed Awa",
-    },
-    category: "outdoor",
-    image: "/static/images/aa-picnic.jpg",
-  },
-];
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export default function Events() {
-  // const [events, setEvents] = useState([]);
+async function getEvents() {
+  const res = await fetch(
+    "https://4000-monospace-kurdevent-1710360340399.cluster-mwrgkbggpvbq6tvtviraw2knqg.cloudworkstations.dev/events"
+  );
 
-  // useEffect(() => {
-  //   fetch('/api/events')
-  //     .then((response) => response.json())
-  //     .then((data) => setEvents(data))
-  //     .catch((error) => console.error('Error fetching events:', error));
-  // }, []);
+  return res.json();
+}
+
+export default async function Events() {
+  const [activeSearch, setActiveSearch] = useState(events);
+  const [sortBy, setSortBy] = useState("title");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const events = 
+
+  const handleSearch = (e: any) => {
+    const searchValue = e.target.value.toLowerCase();
+    if (searchValue === "") {
+      setActiveSearch(events);
+      return;
+    }
+    setActiveSearch(
+      events.filter((event) => event.title.toLowerCase().includes(searchValue))
+    );
+  };
+
+  const handleCategory = (e: any) => {
+    const categoryValue = e.target.value.toLowerCase();
+    setSelectedCategory(categoryValue);
+    if (categoryValue === "all") {
+      setActiveSearch(events);
+    } else {
+      setActiveSearch(
+        events.filter((event) =>
+          event.category.toLowerCase().includes(categoryValue)
+        )
+      );
+    }
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+
+    setActiveSearch((prevItems) => {
+      return prevItems.sort((a: any, b: any) => {
+        if (sortOrder === "asc") {
+          // Ascending order
+          return a - b;
+        } else {
+          // Descending order
+          return b - a;
+        }
+      });
+    });
+  };
+
+  const uniqueCategories = Array.from(
+    new Set(
+      events.map(
+        (event) => event.category[0].toUpperCase() + event.category.slice(1)
+      )
+    )
+  );
 
   return (
     <main>
@@ -90,16 +92,73 @@ export default function Events() {
           <h1 className="text-2xl font-semibold mb-4 pb-2 border-b-2 border-rose-600">
             Upcoming Events
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+          <div className="flex flex-col md:flex-row items-center justify-between mb-4">
+            <div className="relative flex-1 md:w-3/4">
+              <Input
+                type="search"
+                placeholder="Type Here"
+                className="w-full p-6 rounded-full flex-1 focus:outline-none focus:ring focus:ring-indigo-200"
+                onChange={handleSearch}
+              />
+              {/* <Button className="absolute right-1 top-1/2 -translate-y-1/2 py-2 px-4 bg-rose-600 rounded-full">
+                <Search width={16} height={16} />
+              </Button> */}
+            </div>
+
+            <Select>
+              <SelectTrigger
+                value={selectedCategory}
+                className="md:ml-2 mt-2 md:mt-0 w-full md:w-auto p-2"
+                onChange={handleCategory}>
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Categories</SelectLabel>
+                  {uniqueCategories.map((category, index) => (
+                    <SelectItem key={index} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <Select>
+              <SelectTrigger
+                className="md:ml-2 mt-2 md:mt-0 w-full md:w-auto p-2"
+                value={sortBy}
+                onChange={(e: any) => setSortBy(e.target.value)}>
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Sort by</SelectLabel>
+                  <SelectItem value="name">Title</SelectItem>
+                  <SelectItem value="date created">Date Created</SelectItem>
+                  <SelectItem value="date modified">Date Modified</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <Button
+              onClick={toggleSortOrder}
+              className="ml-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200">
+              {sortOrder === "asc" ? (
+                <ArrowUpNarrowWide />
+              ) : (
+                <ArrowDownWideNarrow />
+              )}
+            </Button>
           </div>
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </div> */}
+
+          {activeSearch.length > 0 && sortBy === "title" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+              {activeSearch.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          )}
         </div>
       </Wrapper>
     </main>

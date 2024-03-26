@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   await connect();
 
   //Checks if a user with the provided email already exists.
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: email.toLowerCase() });
 
   //If yes, returns a 400 response.
   if (user) {
@@ -31,9 +31,9 @@ export async function POST(request: NextRequest) {
   });
 
   // Saves the new user to the database.
-  const savedUser = await newUser.save();
 
   try {
+    await newUser.save();
     return NextResponse.json("User created successfully", {
       status: 200,
     });
