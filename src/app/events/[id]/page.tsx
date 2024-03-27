@@ -1,33 +1,84 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import Wrapper from "@/components/wrapper";
-import React, { useEffect } from "react";
-import events from "@/_data/events";
-import router, { usePathname } from "next/navigation";
 
-export default function Event() {
-  const pathname = usePathname();
+async function getEvents() {
+  const response = await fetch(
+    `https://api.jsonbin.io/v3/b/6603e0e9c859604a6a02ff2e/latest`,
+    {
+      headers: {
+        "X-Master-Key":
+          "$2a$10$oB80y4ppSBKqkQ0NXCsmu..aHJFZMzeSYQiQWd.Qc6Yae3U8YmGg6",
+      },
+    }
+  );
 
-  // Find the event by ID
-  // const event = events.find((event) => event.id === parseInt(id));
+  const data = await response.json();
 
-  // if (!event) {
-  //   return <div>Event not found!</div>;
-  // }
+  if (!response.ok) {
+    throw new Error(data.message || "Could not fetch the event.");
+  }
+
+  return data.record.events;
+}
+
+export default function EventDetails({ params }) {
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    getEvents().then((event) => {
+      setEvent(event[params.id - 1]);
+      setLoading(false);
+    });
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <Wrapper>
+        <div>Loading...</div>
+      </Wrapper>
+    );
+  }
+
+  if (error) {
+    return (
+      <Wrapper>
+        <div>Error: {error}</div>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
-      <div>Details Page</div>
-      {/* <h1>{event.title}</h1>
-      <p>{event.body}</p>
-      <p>Date: {event.date}</p>
-      <p>Ticket Price: {event.ticket.price}</p>
-      <p>Tickets Available: {event.ticket.quantity}</p>
-      <p>
-        Location: {event.location.city}, {event.location.province}
-      </p>
-      <p>Category: {event.category}</p>
-      <img src={event.image} alt={event.title} style={{ maxWidth: "100%" }} /> */}
+      <div className="container mx-auto py-8">
+        {event ? (
+          <>
+            <h1 className="text-2xl font-semibold mb-4 pb-2 border-b-2 border-rose-600">
+              {event.title}
+            </h1>
+            <div className="flex flex-col md:flex-row items-center justify-between mb-4">
+              {/* Display event details */}
+              <div className="flex-1 md:w-3/4">
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  layout="responsive"
+                  width={500}
+                  height={200}
+                  className="mb-4 rounded-lg"
+                />
+                <p>{event.body}</p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </Wrapper>
   );
 }

@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import isEmailValid from "@/lib/is-email-valid";
+import Wrapper from "./wrapper";
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -65,8 +66,8 @@ export default function SignInForm() {
     }
   };
 
-  if(sessionStatus === 'loading') {
-    return <h1>Loading...</h1>
+  if (sessionStatus === "loading") {
+    return <h1>Loading...</h1>;
   }
 
   return (

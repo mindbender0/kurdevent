@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import isEmailValid from "@/lib/is-email-valid";
 import { signIn, useSession } from "next-auth/react";
+import Wrapper from "./wrapper";
 
 export const metadata: Metadata = {
   title: "Authentication",
